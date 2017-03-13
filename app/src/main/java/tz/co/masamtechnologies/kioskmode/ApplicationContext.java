@@ -23,7 +23,6 @@ import java.util.List;
 
 import tz.co.masamtechnologies.kioskmode.activities.KioskActivity;
 import tz.co.masamtechnologies.kioskmode.activities.LauncherActivity;
-import tz.co.masamtechnologies.kioskmode.receiver.OnScreenOffReceiver;
 import tz.co.masamtechnologies.kioskmode.service.KioskService;
 
 /**
@@ -32,35 +31,12 @@ import tz.co.masamtechnologies.kioskmode.service.KioskService;
 
 public class ApplicationContext extends Application {
     private ApplicationContext instance;
-    private PowerManager.WakeLock wakeLock;
-    private OnScreenOffReceiver onScreenOffReceiver;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-    }
-
-    public void registerKioskModeScreenOffReceiver() {
-        // register screen off receiver
-        if (!onLock())
-            return;
-        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-        onScreenOffReceiver = new OnScreenOffReceiver();
-        registerReceiver(onScreenOffReceiver, filter);
-    }
-
-    public PowerManager.WakeLock getWakeLock() {
-        if (!onLock())
-            return wakeLock;
-
-        if (wakeLock == null) {
-            // lazy loading: first call, create wakeLock via PowerManager.
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "wakeup");
-        }
-        return wakeLock;
     }
 
     public void startKioskService() { // ... and this method
@@ -138,7 +114,6 @@ public class ApplicationContext extends Application {
         } else {
             startHardware();
             _onLock = true;
-            registerKioskModeScreenOffReceiver();
             startKioskService();  // add this
             return true;
         }

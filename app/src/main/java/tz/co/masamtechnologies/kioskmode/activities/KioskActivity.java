@@ -48,7 +48,7 @@ public class KioskActivity extends AppCompatActivity {
         }
     }
 
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
+    /*private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -59,7 +59,7 @@ public class KioskActivity extends AppCompatActivity {
         } else {
             return super.dispatchKeyEvent(event);
         }
-    }
+    }*/
 
 
     public static void preventStatusBarExpansion(Context context) {
