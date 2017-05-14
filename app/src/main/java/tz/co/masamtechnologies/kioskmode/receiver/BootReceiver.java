@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
+import tz.co.masamtechnologies.kioskmode.ApplicationContext;
 import tz.co.masamtechnologies.kioskmode.activities.KioskActivity;
 
 /**
@@ -17,10 +18,15 @@ public class BootReceiver extends BroadcastReceiver {
         // Restart activity
         PackageManager pm = ctx.getPackageManager();
         //check if we got the PackageManager
-        if (pm != null) {
-            Intent i = pm.getLaunchIntentForPackage(ctx.getPackageName());
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            ctx.startActivity(i);
+        try {
+
+            if (pm != null && ((ApplicationContext)ctx.getApplicationContext()).onLock()) {
+                Intent i = pm.getLaunchIntentForPackage(ctx.getPackageName());
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ctx.startActivity(i);
+            }
+        }catch (Exception ignored){
+
         }
     }
 }

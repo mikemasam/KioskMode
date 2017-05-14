@@ -57,7 +57,7 @@ public class ApplicationContext extends Application {
         }
     }
 
-
+    @SuppressLint("NewApi")
     private static boolean canDrawOverlaysUsingReflection(Context context) {
 
         try {
@@ -120,9 +120,11 @@ public class ApplicationContext extends Application {
     }
 
     public void stopLock(Activity context) {
-        _onLock = false;
-        resetPreferredLauncherAndOpenChooser(context);
-        stopHardware();
+        if (_onLock) {
+            _onLock = false;
+            resetPreferredLauncherAndOpenChooser(context);
+            stopHardware();
+        }
     }
 
     private boolean startHardware() {
